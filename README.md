@@ -23,136 +23,98 @@ The **Students** table contains:
 - `email`
 - `grade`
 
-### Sample Data
-| student_id | name    | age | email               | grade |
-|------------|---------|-----|---------------------|-------|
-| 1          | Alice   | 20  | alice@example.com   | A     |
-| 2          | Bob     | 21  | bob@example.com     | B     |
-| 3          | Charlie | 22  | charlie@example.com | A+    |
-| 4          | Diana   | 19  | diana@example.com   | C     |
-| 5          | Evan    | 21  | evan@example.com    | B     |
 
 ---
 
-## SQL Queries & Outputs
+## 🧾 Dataset Structure (students.csv)
+| id | name         | age | email                 | grade |
+|----|--------------|-----|-----------------------|-------|
+| 1  | John Smith   | 20  | john.smith@email.com  | A     |
+| 2  | Alice Brown  | 22  | alice.brown@email.com | B     |
+| 3  | Mark Davis   | 19  | mark.davis@email.com  | C     |
+| 4  | Emma Wilson  | 21  | emma.wilson@email.com | B     |
+| 5  | David Lee    | 23  | david.lee@email.com   | A     |
 
-### 1. Select all columns from the table
+---
 
-SELECT * FROM Students;
+## 💻 SQL Queries
 
-Output:
+### 1️⃣ Create Table
+```sql
+CREATE TABLE students (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER,
+    email TEXT UNIQUE,
+    grade TEXT
+);
 
-student_id	name	age	email	grade
-1	Alice	20	alice@example.com	A
-2	Bob	21	bob@example.com	B
-3	Charlie	22	charlie@example.com	A+
-4	Diana	19	diana@example.com	C
-5	Evan	21	evan@example.com	B
+##Insert Data
 
-2. Select specific columns
+INSERT INTO students (name, age, email, grade) VALUES
+('John Smith', 20, 'john.smith@email.com', 'A'),
+('Alice Brown', 22, 'alice.brown@email.com', 'B'),
+('Mark Davis', 19, 'mark.davis@email.com', 'C'),
+('Emma Wilson', 21, 'emma.wilson@email.com', 'B'),
+('David Lee', 23, 'david.lee@email.com', 'A');
 
-SELECT name, grade FROM Students;
 
-Output:
-name	grade
-Alice	A
-Bob	B
-Charlie	A+
-Diana	C
-Evan	B
+## Update Data
+UPDATE students
+SET grade = 'A+'
+WHERE name = 'Alice Brown';
 
-3. Filtering results using WHERE
-a) Students with grade 'A'
+## Delete Data
+DELETE FROM students
+WHERE id = 3;
 
-SELECT * FROM Students WHERE grade = 'A';
+##  Select Queries
+-- Select all columns
+SELECT * FROM students;
 
-Output:
-student_id	name	age	email	grade
-1	Alice	20	alice@example.com	A
+-- Select specific columns
+SELECT name, grade FROM students;
 
-b) Students older than 20
+-- Apply WHERE condition
+SELECT * FROM students WHERE grade = 'A';
 
-SELECT * FROM Students WHERE age > 20;
+-- Apply AND condition
+SELECT * FROM students WHERE grade = 'A' AND age < 23;
 
-Output:
-student_id	name	age	email	grade
-2	Bob	21	bob@example.com	B
-3	Charlie	22	charlie@example.com	A+
-5	Evan	21	evan@example.com	B
+-- Apply LIKE operator
+SELECT * FROM students WHERE name LIKE 'E%';
 
-c) Students aged between 20 and 22
+-- Apply BETWEEN operator
+SELECT * FROM students WHERE age BETWEEN 20 AND 22;
 
-SELECT * FROM Students WHERE age BETWEEN 20 AND 22;
+-- Order results
+SELECT * FROM students ORDER BY age DESC;
 
-Output:
-student_id	name	age	email	grade
-1	Alice	20	alice@example.com	A
-2	Bob	21	bob@example.com	B
-3	Charlie	22	charlie@example.com	A+
-5	Evan	21	evan@example.com	B
+-- Limit results
+SELECT * FROM students LIMIT 3;
 
-d) Students whose names start with 'A'
 
-SELECT * FROM Students WHERE name LIKE 'A%';
+Sample Output
+Before UPDATE & DELETE:
 
-Output:
-student_id	name	age	email	grade
-1	Alice	20	alice@example.com	A
 
-e) Students with grade A or B
+| id | name        | age | email                                                 | grade |
+| -- | ----------- | --- | ----------------------------------------------------- | ----- |
+| 1  | John Smith  | 20  | [john.smith@email.com](mailto:john.smith@email.com)   | A     |
+| 2  | Alice Brown | 22  | [alice.brown@email.com](mailto:alice.brown@email.com) | B     |
+| 3  | Mark Davis  | 19  | [mark.davis@email.com](mailto:mark.davis@email.com)   | C     |
+| 4  | Emma Wilson | 21  | [emma.wilson@email.com](mailto:emma.wilson@email.com) | B     |
+| 5  | David Lee   | 23  | [david.lee@email.com](mailto:david.lee@email.com)     | A     |
 
-SELECT * FROM Students WHERE grade = 'A' OR grade = 'B';
 
-Output:
-student_id	name	age	email	grade
-1	Alice	20	alice@example.com	A
-2	Bob	21	bob@example.com	B
-5	Evan	21	evan@example.com	B
+After UPDATE & DELETE:
 
-4. Sorting results
-a) Sort by age ascending
-
-SELECT * FROM Students ORDER BY age ASC;
-
-Output:
-student_id	name	age	email	grade
-4	Diana	19	diana@example.com	C
-1	Alice	20	alice@example.com	A
-2	Bob	21	bob@example.com	B
-5	Evan	21	evan@example.com	B
-3	Charlie	22	charlie@example.com	A+
-
-b) Sort by name descending
-
-SELECT * FROM Students ORDER BY name DESC;
-
-Output:
-student_id	name	age	email	grade
-5	Evan	21	evan@example.com	B
-4	Diana	19	diana@example.com	C
-3	Charlie	22	charlie@example.com	A+
-2	Bob	21	bob@example.com	B
-1	Alice	20	alice@example.com	A
-
-5. Limiting the number of results
-a) First 3 students
-
-SELECT * FROM Students LIMIT 3;
-
-Output:
-student_id	name	age	email	grade
-1	Alice	20	alice@example.com	A
-2	Bob	21	bob@example.com	B
-3	Charlie	22	charlie@example.com	A+
-
-b) Top 2 oldest students
-
-SELECT * FROM Students ORDER BY age DESC LIMIT 2;
-
-Output:
-student_id	name	age	email	grade
-3	Charlie	22	charlie@example.com	A+
-2	Bob	21	bob@example.com	B
+| id | name        | age | email                                                 | grade |
+| -- | ----------- | --- | ----------------------------------------------------- | ----- |
+| 1  | John Smith  | 20  | [john.smith@email.com](mailto:john.smith@email.com)   | A     |
+| 2  | Alice Brown | 22  | [alice.brown@email.com](mailto:alice.brown@email.com) | A+    |
+| 4  | Emma Wilson | 21  | [emma.wilson@email.com](mailto:emma.wilson@email.com) | B     |
+| 5  | David Lee   | 23  | [david.lee@email.com](mailto:david.lee@email.com)     | A     |
 
 Author
 **Name:** Bhargavi Thammina  
